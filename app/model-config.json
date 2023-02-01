@@ -1,0 +1,13 @@
+{
+    "groups": [
+        "administration",
+        "editors",
+        "authors",
+        "graphic design"
+    ],
+    "coverImgStyles": [
+        "full",
+        "normal",
+        "none"
+    ]
+}
