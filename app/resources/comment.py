@@ -1,12 +1,12 @@
 from flask.views import MethodView
 from flask_smorest import abort
 from app.models import Comment
-from app.schemas import CommentSchema
+from app.schemas import CommentSchema, CommentEditSchema
 from app.resources import comment_bp as bp
 from app.resources.article import get_article
 from app import httpauth, db
 
-def get_comment(url_slug, id, user):
+def get_comment(url_slug, id, user=None):
     article = get_article(url_slug, user)
     comment = Comment.query.get(id)
     if not comment or article.id != comment.article_id:
@@ -45,6 +45,21 @@ class CommentsView(MethodView):
 
 @bp.route('/articles/<url_slug>/comments/<id>')
 class CommentView(MethodView):
+    @bp.response(200, CommentSchema)
+    def get(self, url_slug, id):
+        return get_comment(url_slug, id), httpauth.current_user()
+
+    @httpauth.login_required()
+    @bp.arguments(CommentEditSchema)
+    @bp.response(200, CommentSchema)
+    def put(self, comment_data, url_slug, id):
+        comment = get_comment(url_slug, id, httpauth.current_user())
+        for field in comment_data:
+            print(comment_data, field)
+            setattr(comment, field, comment_data[field])
+        db.session.commit()
+        return comment
+
     @httpauth.login_required()
     @bp.response(200)
     def delete(self, url_slug, id):

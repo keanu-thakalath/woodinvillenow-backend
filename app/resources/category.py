@@ -38,7 +38,6 @@ class CategoryView(MethodView):
         return get_category(url_slug)
     
     @httpauth.login_required()
-    @bp.response(200)
     @bp.arguments(CategorySchema)
     @bp.response(200, CategorySchema)
     def put(self, category_data, url_slug):

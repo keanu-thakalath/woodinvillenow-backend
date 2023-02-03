@@ -46,7 +46,6 @@ class AuthorView(MethodView):
         return get_author(url_slug)
 
     @httpauth.login_required()
-    @bp.response(200)
     @bp.arguments(AuthorSchema)
     @bp.response(200, AuthorBasicSchema)
     def put(self, author_data, url_slug):

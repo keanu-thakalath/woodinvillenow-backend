@@ -59,6 +59,9 @@ class CommentSchema(Schema):
     datetime = auto_field(required=True, dump_only=True)
     content = auto_field(required=True)
 
+class CommentEditSchema(CommentSchema):
+    datetime = auto_field(required=True)
+
 class CategorySchema(Schema):
     class Meta:
         model = Category

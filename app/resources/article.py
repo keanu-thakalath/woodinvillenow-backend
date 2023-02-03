@@ -107,7 +107,6 @@ class ArticleView(MethodView):
         return get_article(url_slug, httpauth.current_user())
 
     @httpauth.login_required()
-    @bp.response(200)
     @bp.arguments(ArticleSchema, as_kwargs=True)
     @bp.response(200, ArticleBasicSchema)
     def put(self, url_slug, tag_ids, category_ids, author_ids, **article_data):

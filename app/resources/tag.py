@@ -38,7 +38,6 @@ class TagView(MethodView):
         return get_tag(url_slug)
     
     @httpauth.login_required()
-    @bp.response(200)
     @bp.arguments(TagSchema)
     @bp.response(200, TagSchema)
     def put(self, tag_data, url_slug):
