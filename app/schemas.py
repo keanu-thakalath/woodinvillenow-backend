@@ -37,13 +37,16 @@ class AuthorSchema(Schema):
 
 class AuthorBasicSchema(AuthorSchema):
     class Meta(AuthorSchema.Meta):
-        exclude = ('bio_pic',)
+        exclude = ('bio_pic', 'bio')
 
 class ArticleAuthorAssociationSchema(Schema):
     class Meta:
         model = ArticleAuthorAssociation
         ordered = True
     
+    author = fields.Nested(AuthorSchema, required=True, dump_only=True)
+
+class ArticleAuthorBasicAssociationSchema(ArticleAuthorAssociationSchema):
     author = fields.Nested(AuthorBasicSchema, required=True, dump_only=True)
 
 class CommentSchema(Schema):
@@ -102,7 +105,7 @@ class ArticleSchema(Schema):
     content = auto_field(required=True)
     draft = auto_field(required=True)
     url_slug = auto_field(required=True, dump_only=True)
-    datetime = auto_field(required=True, dump_only=True)
+    datetime = auto_field(required=True)
     views = auto_field(required=True, dump_only=True)
 
     author_ids = fields.List(fields.Integer, required=True, load_only=True)
@@ -118,7 +121,7 @@ class ArticleBasicSchema(ArticleSchema):
     class Meta(ArticleSchema.Meta):
         exclude = ('content', 'cover_img_caption', 'cover_img_style')
 
-    authors = fields.List(fields.Nested(ArticleAuthorAssociationSchema), required=True, dump_only=True)
+    authors = fields.List(fields.Nested(ArticleAuthorBasicAssociationSchema), required=True, dump_only=True)
 
 class NewsletterEmailSchema(Schema):
     class Meta:

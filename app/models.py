@@ -34,6 +34,9 @@ class User(db.Model):
             return None
         return User.query.get(id)
 
+    def __repr__(self):
+        return f'<User {self.username}>'
+
 class Author(db.Model):
     with open('app/model-config.json') as f:
         groups = json.load(f)['groups']
@@ -52,6 +55,9 @@ class Author(db.Model):
     def delete_articles(self):
         for article in self.articles:
             db.session.delete(article)
+
+    def __repr__(self):
+        return f'<Author {self.name}>'
 
 class Article(db.Model):
     with open('app/model-config.json') as f:
@@ -85,10 +91,12 @@ class Article(db.Model):
         for tag in self.tags:
             db.session.delete(tag)
 
-
     def delete_comments(self):
         for comment in self.comments:
             db.session.delete(comment)
+
+    def __repr__(self):
+        return f'<Article {self.title}>'
 
 class Comment(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -96,6 +104,9 @@ class Comment(db.Model):
     datetime = db.Column(db.DateTime(), index=True, default=datetime.utcnow)
     content = db.Column(db.Text())
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))
+
+    def __repr__(self):
+        return f'<Comment {self.name}>'
 
 class Category(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -107,6 +118,9 @@ class Category(db.Model):
         for article in self.articles:
             db.session.delete(article)
 
+    def __repr__(self):
+        return f'<Category {self.name}>'
+
 class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32))
@@ -116,6 +130,9 @@ class Tag(db.Model):
     def delete_articles(self):
         for article in self.articles:
             db.session.delete(article)
+
+    def __repr__(self):
+        return f'<Tag {self.name}>'
 
 class NewsletterEmail(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -137,6 +154,9 @@ class NewsletterEmail(db.Model):
         except Exception as e:
             return None
         return NewsletterEmail.query.get(id)
+
+    def __repr__(self):
+        return f'<NewsletterEmail {self.email}>'
 
 class ArticleAuthorAssociation(db.Model):
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'), primary_key=True)
