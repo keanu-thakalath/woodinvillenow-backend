@@ -2,7 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_smorest import Api
-from flask_cors import CORS
 from config import Config
 import logging
 from logging.handlers import SMTPHandler
@@ -12,7 +11,6 @@ httpauth = HTTPTokenAuth('Bearer')
 db = SQLAlchemy()
 migrate = Migrate()
 api = Api()
-cors = CORS()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -22,7 +20,6 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     api.init_app(app)
-    cors.init_app(app)
 
     from app.auth import bp as auth_bp
     api.register_blueprint(auth_bp)
