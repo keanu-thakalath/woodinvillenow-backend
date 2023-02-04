@@ -46,7 +46,7 @@ class Author(db.Model):
     url_slug = db.Column(db.String(32))
     title = db.Column(db.String(64))
     group = db.Column(db.String(32))
-    bio = db.Column(db.Text())
+    bio = db.Column(db.String(1024))
     profile_pic = db.Column(db.String(256))
     bio_pic = db.Column(db.String(256))
     active = db.Column(db.Boolean())
@@ -102,7 +102,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(32))
     datetime = db.Column(db.DateTime(), index=True, default=datetime.utcnow)
-    content = db.Column(db.Text())
+    content = db.Column(db.String(1024))
     article_id = db.Column(db.Integer(), db.ForeignKey('article.id'))
 
     def __repr__(self):
