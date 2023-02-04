@@ -7,7 +7,6 @@ models_shell_context = ['User', 'Article', 'Comment', 'Category', 'Tag', 'Articl
 
 @app.after_request
 def add_header(response):
-    print(response.cache_control, 'hello')
     response.headers['Cache-Control'] = 's-maxage=60, stale-while-revalidate'
     return response
 
