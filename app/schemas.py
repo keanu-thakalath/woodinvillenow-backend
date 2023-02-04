@@ -108,7 +108,7 @@ class ArticleSchema(Schema):
     content = auto_field(required=True)
     draft = auto_field(required=True)
     url_slug = auto_field(required=True, dump_only=True)
-    datetime = auto_field(required=True)
+    datetime = auto_field()
     views = auto_field(required=True, dump_only=True)
 
     author_ids = fields.List(fields.Integer, required=True, load_only=True)
